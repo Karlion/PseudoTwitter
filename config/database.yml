@@ -1,0 +1,15 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  username: karlion
+  password: qwerty123
+  host: localhost
+  port: 5432
+
+development:
+  <<: *default
+  database: twitter_clone_dev
+
+production:
+  <<: *default
+  database: twitter_clone_prod
