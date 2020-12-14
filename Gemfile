@@ -26,7 +26,7 @@ gem "will_paginate"
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 # gem 'jbuilder', '~> 2.5'
 
-group :production, :development, :test do
+group :development, :test do
   gem "byebug", platforms: [:mri, :mingw, :x64_mingw]
   gem "capybara"
   gem "factory_bot_rails"
@@ -39,7 +39,7 @@ group :production, :development, :test do
   gem "simplecov", require: false
 end
 
-group :production, :development do
+group :development do
   gem "bullet"
   gem "listen"
   gem "rubocop-rails_config"
