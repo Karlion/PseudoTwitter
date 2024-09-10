@@ -1,5 +1,6 @@
 name: Update app version on release
 
+# Trigger the workflow when a release is published
 on:
   release:
     types: [published]
@@ -46,7 +47,7 @@ jobs:
       # Step 7: Merge changes from master into production
       - name: Merge master into production
         run: |
-          git merge main
+          git pull origin main
 
       # Step 8: Push the merged changes to production
       - name: Push changes to production
