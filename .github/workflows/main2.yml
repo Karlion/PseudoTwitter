@@ -1,0 +1,55 @@
+name: Update app version on release
+
+# Trigger the workflow when a release is published
+on:
+  release:
+    types: [published]
+
+jobs:
+  update-version:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Checkout the master branch
+      - name: Checkout master branch
+        uses: actions/checkout@v3
+        with:
+          ref: main
+
+      # Step 2: Set up Git for commit and push
+      - name: Set up Git
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+      # Step 3: Update .app_version file with the new release tag
+      - name: Update .app_version with release tag
+        run: |
+          echo "${{ github.event.release.tag_name }}" > .app_version
+          git add .app_version
+
+      # Step 4: Commit the change to master
+      - name: Commit version update
+        run: |
+          git commit -m "Update .app_version to ${{ github.event.release.tag_name }}"
+
+      # Step 5: Push the commit to the master branch
+      - name: Push changes to master
+        run: |
+          git push origin main
+
+      # Step 6: Checkout the production branch
+      - name: Checkout production branch
+        run: |
+          git fetch origin
+          git checkout production
+
+      # Step 7: Merge changes from master into production
+      - name: Merge master into production
+        run: |
+          git merge main
+
+      # Step 8: Push the merged changes to production
+      - name: Push changes to production
+        run: |
+          git push origin production
