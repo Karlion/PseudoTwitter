@@ -1,0 +1,28 @@
+name: Test Deploy
+
+on:
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: 'Branch to deploy (e.g., staging, uat, feature-branch)'
+        default: 'staging'
+        required: true
+      environment:
+        description: 'Select the environment to deploy'
+        required: true
+        type: environment
+  push:
+    branches:
+      - test-workflow-dispatch
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print inputs
+        env:
+          BRANCH: ${{ inputs.branch }}
+          ENVIRONMENT: ${{ inputs.environment }}
+        run: |
+          echo "Branch: $BRANCH"
+          echo "Environment: $ENVIRONMENT"
